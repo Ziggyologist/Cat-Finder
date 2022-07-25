@@ -5,12 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="style.css" rel="stylesheet" type="text/css" />
     <title>LoCAT: Cat Finder</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin="" />
+<script defer src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
+    <script defer src="script.js"></script>
   </head>
   <body>
     <div class="main_container">
       <aside class="aside_container">
-        <div class="aside_btn">
-          <button class="btn btn_expand">
+        <div class="aside_bar">          
+            <button class="btn btn_expand">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46.81 47.67">
               <title>Asset 2</title>
               <g id="Layer_2" data-name="Layer 2">
@@ -28,7 +31,11 @@
                 </g>
               </g>
             </svg>
-          </button>
+          </button></div>
+
+        <div class="aside_content hidden">
+            <div class="aside_btn">
+
           <button class="btn btn_shrink">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46.81 47.67">
               <title>Asset 1</title>
@@ -59,12 +66,52 @@
             </svg>
           </button>
         </div>
-        <div class="aside_content"></div>
+        <div class="aside_form"></div>
+        </div>
+
       </aside>
       <main>
-        <div class="filters"></div>
-        <div class="map"></div>
+        <div class="filters">
+            <form id="filters_form">
+                <p>Filter cats by:</p>
+                <div class="filters_col">
+                    <label class="filters_form_label">Date: </label>
+                    <select class="filters_input_date">
+                        <option value="all_cats" selected>All cats</option>
+                        <option value="today">Today</option>
+                        <option value="this_week">This week</option>
+                    </select>
+                </div>
+
+                <div class="filters_col">
+                    <label class="filters_form_label">Color: </label>
+                    <select class="filters_input_color">
+                        <option value="white">White</option>
+                        <option value="orange">Orange</option>
+                        <option value="grey">Grey</option>
+                        <option value="black">Black</option>
+                        <option value="others">Others</option>
+                        <option value="all_colors" selected>all colors</option>
+                        
+                    </select>
+                </div>
+
+                <div class="filters_col">
+                    <label class="filters_form_label">Race: </label>
+                    <select class="filters_input_race">
+                        <option value="all_races" selected>All races</option>
+                    </select>
+                </div>
+
+                <div class="filters_col">
+                    <button class="btn_save_filter">Save filter</button>
+                </div>
+
+            </form>
+        </div>
+        <div class="map" id="map"></div>
       </main>
+    </div>
     </div>
   </body>
 </html>
