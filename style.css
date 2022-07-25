@@ -17,6 +17,8 @@
 
 body {
   background-color: white;
+  max-height: 100vh;
+  max-width: 100vw;
 }
 
 .main_container {
@@ -83,8 +85,8 @@ main {
   /* border: 2px black solid; */
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100vh;
+  width: auto;
+  height: auto;
 }
 
 .filters {
@@ -101,13 +103,15 @@ main {
   flex-direction: row;
   justify-content: space-between;
   padding: 5px 5px 5px 5px;
-  margin: 0 auto;
-  width: 80%;
+  margin: 0 20% 0 5%;
+  width: auto;
+  max-width: 1000px;
   border: 2px solid rgb(216, 216, 216);
   border-radius: 1rem;
   align-items: center;
   background-color: white;
   opacity: 0.8;
+  gap: 1rem;
 }
 .filters form:hover {
   opacity: 1;
@@ -141,12 +145,28 @@ main {
 
 .map {
   /* border: 2px solid purple; */
+  height: auto;
+  width: 100vw;
   height: 100%;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  bottom: 0;
+  margin-top: -8rem;
   z-index: 0;
+  /* overflow: hidden; */
+}
+
+.add_cat {
+  position: absolute;
+  min-height: 70vh;
+  min-width: 50vw;
+  background-color: white;
+  top: 15%;
+  left: 25%;
+}
+
+@media only screen and (max-width: 1500px) {
+  .filters form {
+    max-width: 300px;
+    flex-direction: column;
+  }
 }
 
 .hidden {

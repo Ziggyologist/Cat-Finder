@@ -74,20 +74,22 @@ class App {
     const coords = [latitude, longitude];
     this.#map = L.map("map").setView(coords, this.#mapZoomLevel);
 
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    L.tileLayer("https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.#map);
-
-    L.marker([51.5, -0.09])
-      .addTo(map)
-      .bindPopup("A pretty CSS3 popup.<br> Easily customizable.")
-      .openPopup();
+    // alternative if link doesnt work
+    // https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
   }
   _showForm() {}
   _hideForm() {}
   _addCat() {}
-  _renderCatsMarker(cat) {}
+  _renderCatsMarker(cat) {
+    L.marker(cat.coords)
+      .addTo(this.#map)
+      .bindPopup("A pretty CSS3 popup.<br> Easily customizable.")
+      .openPopup();
+  }
   _renderCats(cat) {}
   _moveToPopUp(e) {}
   _setLocalStorage() {}
