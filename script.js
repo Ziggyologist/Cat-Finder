@@ -3,13 +3,12 @@
 class Cat {
   date = new Date();
   id = (Date.now() + "").slice(-10);
-  constructor(coords, color, logo, race, photo, comments) {
+  constructor(coords, color, race, photo, comment) {
     this.coords = coords; //[lat, lng]
     this.color = color; //form select
-    this.logo = logo; //form select
     this.race = race; //form select
     this.photo = photo; //form select
-    this.comments = comments; //form select
+    this.comment = comment; //form select
   }
 
   _setDescription() {
@@ -23,7 +22,7 @@ class Cat {
 }
 
 //test
-const test = new Cat(12, "grey", "logo", "mixed", "photo", 12);
+const test = new Cat(12, "grey", "mixed", "photo", 12);
 console.log(test);
 // //////////////////////////////////////////////
 // APPLICATION ARCHITECTURE
@@ -47,8 +46,9 @@ class App {
   #map;
   #mapZoomLevel = 13;
   #mapEvent;
-  cats = [];
+
   constructor() {
+    this.cats = [];
     // 1. Get user position
     this._getPosition();
     // 2. Get data from local storage
@@ -98,9 +98,9 @@ class App {
     // Handling clicks on map
     this.#map.on("click", this._showForm.bind(this));
     // Render cats array on map
-    // this.#cats.forEach(cat => {
-    //   this._renderCatsMarker(cat);
-    // });
+    this.cats.forEach(cat => {
+      this._renderCatsMarker(cat);
+    });
   }
   // ///////////////SHOW FORM
   _showForm(mapE) {
@@ -118,12 +118,83 @@ class App {
   _newCat(e) {
     let cat;
     e.preventDefault();
-    cat = new Cat();
+    // form data
+
+    const {lat, lng} = this.#mapEvent.latlng;
+    const color = newCatColor.value;
+    const race = newCatRace.value;
+    const photo = newCatPhoto.value;
+    const comment = newCatComment.value;
+    // (coords, color, race, photo, comment)
+    cat = new Cat([lat, lng], color, race, photo, comment);
+    this.cats.push(cat);
+    this._hideForm();
+    this._renderCatsMarker(cat);
   }
   _renderCatsMarker(cat) {
-    L.marker(cat.coords)
+    const iconWhite = L.icon({
+      iconUrl: `Cat_logos/white_cat.svg`,
+      iconSize: [25, 66],
+      iconAnchor: [22, 94],
+      popupAnchor: [0, -80],
+    });
+    const iconOrange = L.icon({
+      iconUrl: `Cat_logos/orange_cat.svg`,
+      iconSize: [25, 66],
+      iconAnchor: [22, 94],
+      popupAnchor: [0, -80],
+    });
+    const iconGrey = L.icon({
+      iconUrl: `Cat_logos/gray_cat.svg`,
+      iconSize: [25, 66],
+      iconAnchor: [22, 94],
+      popupAnchor: [0, -80],
+    });
+    const iconBlack = L.icon({
+      iconUrl: `Cat_logos/black_cat.svg`,
+      iconSize: [25, 66],
+      iconAnchor: [22, 94],
+      popupAnchor: [0, -80],
+    });
+    const iconBlackWhite = L.icon({
+      iconUrl: `Cat_logos/black_white_cat.svg`,
+      iconSize: [25, 66],
+      iconAnchor: [22, 94],
+      popupAnchor: [0, -80],
+    });
+    const iconOthers = L.icon({
+      iconUrl: `Cat_logos/white_orange_cat.svg`,
+      iconSize: [25, 66],
+      iconAnchor: [22, 94],
+      popupAnchor: [0, -80],
+    });
+    L.marker(cat.coords, {
+      icon:
+        cat.color === "white"
+          ? iconWhite
+          : cat.color === "black"
+          ? iconBlack
+          : cat.color === "orange"
+          ? iconOrange
+          : cat.color === "grey"
+          ? iconGrey
+          : cat.color === "black_white"
+          ? iconBlackWhite
+          : cat.color === "others"
+          ? iconOthers
+          : "",
+    })
       .addTo(this.#map)
-      .bindPopup("A pretty CSS3 popup.<br> Easily customizable.")
+      .bindPopup(
+        L.popup({
+          maxWidth: 250,
+          minWidth: 100,
+          autoClose: false,
+          closeOnClick: false,
+          className: "",
+        })
+      )
+      .setPopupContent("I'm here")
       .openPopup();
   }
   _renderCats(cat) {}
@@ -133,3 +204,6 @@ class App {
   _deleteCat() {}
 }
 const app = new App();
+setTimeout(function () {
+  console.log(app.cats);
+}, 15000);
