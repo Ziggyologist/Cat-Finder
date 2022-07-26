@@ -33,6 +33,16 @@ const btnExpand = document.querySelector(".btn_expand");
 const btnShrink = document.querySelector(".btn_shrink");
 const asideContent = document.querySelector(".aside_content");
 
+const newCatFormContainer = document.querySelector(".add_cat");
+const newCatFormBtnClose = document.querySelector(".add_cat_close");
+const newCatFormBtnSubmit = document.querySelector(".submit_cat");
+const newCatColor = document.querySelector(".color_cat");
+const newCatRace = document.querySelector(".cat_race");
+const newCatPhoto = document.querySelector(".cat_image");
+const newCatComment = document.querySelector(".cat_details");
+
+const filterCatsContainer = document.querySelector(".filters");
+
 class App {
   #map;
   #mapZoomLevel = 13;
@@ -56,8 +66,11 @@ class App {
       asideContent.classList.remove("hidden");
       asideContent.classList.remove("hidden");
     });
-  }
 
+    newCatFormBtnClose.addEventListener("click", this._hideForm.bind(this));
+    newCatFormBtnSubmit.addEventListener("click", this._newCat.bind(this));
+  }
+  // ///////////////////GET POSITION
   _getPosition() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -68,6 +81,7 @@ class App {
       );
     }
   }
+  // /////////////////LOAD MAP
   _loadMap(position) {
     const {latitude} = position.coords;
     const {longitude} = position.coords;
@@ -80,10 +94,32 @@ class App {
     }).addTo(this.#map);
     // alternative if link doesnt work
     // https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
+
+    // Handling clicks on map
+    this.#map.on("click", this._showForm.bind(this));
+    // Render cats array on map
+    // this.#cats.forEach(cat => {
+    //   this._renderCatsMarker(cat);
+    // });
   }
-  _showForm() {}
-  _hideForm() {}
-  _addCat() {}
+  // ///////////////SHOW FORM
+  _showForm(mapE) {
+    this.#mapEvent = mapE;
+    newCatFormContainer.classList.remove("hidden");
+    filterCatsContainer.style.opacity = "0";
+    newCatColor.focus();
+  }
+  // //////////////HIDE FORM
+  _hideForm() {
+    newCatFormContainer.classList.add("hidden");
+    filterCatsContainer.style.opacity = "1";
+  }
+  // /////////////ADD CAT
+  _newCat(e) {
+    let cat;
+    e.preventDefault();
+    cat = new Cat();
+  }
   _renderCatsMarker(cat) {
     L.marker(cat.coords)
       .addTo(this.#map)

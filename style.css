@@ -109,8 +109,8 @@ main {
   border: 2px solid rgb(216, 216, 216);
   border-radius: 1rem;
   align-items: center;
-  background-color: white;
-  opacity: 0.8;
+  background-color: hsla(0, 0%, 100%, 0.6);
+
   gap: 1rem;
 }
 .filters form:hover {
@@ -155,11 +155,78 @@ main {
 
 .add_cat {
   position: absolute;
-  min-height: 70vh;
-  min-width: 50vw;
+  height: auto;
+  min-width: 30vw;
   background-color: white;
   top: 15%;
   left: 25%;
+  border-radius: 1.5rem;
+  padding: 15px 15px 30px 15px;
+  background-color: hsla(0, 0%, 50%, 0.164);
+  box-shadow: -1px 18px 12px 4px rgba(0, 0, 0, 0.28);
+}
+.form_btn_container {
+  text-align: right;
+}
+.form_btn_container button {
+  background-color: transparent;
+  padding: 0.1rem;
+  height: 40px;
+  width: 40px;
+  border: none;
+  border-radius: 2rem;
+  font-size: 1.5rem;
+}
+.form_btn_container button:hover {
+  background-color: hsla(0, 0%, 50%, 0.5);
+  cursor: pointer;
+}
+
+.new_cat_form {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  text-align: center;
+  border-radius: 1.5rem;
+  border: var(--primary-color) solid 2px;
+  background-color: white;
+  padding: 2rem 0;
+}
+
+.form_cat_row {
+  display: flex;
+  flex-direction: column;
+  padding: 0.8rem 0;
+}
+
+.form_cat_row label {
+  padding-bottom: 0.3rem;
+}
+
+.form_cat_row select,
+.form_cat_row input {
+  width: 10rem;
+  margin: 0 auto;
+  height: 2rem;
+  text-align: center;
+}
+.form_cat_row textarea {
+  min-width: 15rem;
+  margin: 0 auto;
+  min-height: 5rem;
+}
+.form_cat_row .submit_cat {
+  background-color: var(--secondary-color);
+  padding: 10px 25px;
+  border: none;
+  border-radius: 2rem;
+  max-width: 8rem;
+  margin: 0 auto;
+}
+
+.form_cat_row .submit_cat:hover {
+  background-color: #bd3c5e;
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 1500px) {
