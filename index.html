@@ -65,7 +65,15 @@
               </g>
             </svg>
           </button>
+        <div class="side_actions">
+          <div class="recent_cats">
+            <h3>See recently added cats...</h3>
+            <div class="recent_cats_area"></div>
+            
+          </div>
         </div>
+        </div>
+
         <div class="aside_form"></div>
         </div>
 
@@ -129,17 +137,18 @@
             <option value="orange">Orange</option>
             <option value="grey">Grey</option>
             <option value="black">Black</option>
-            <option value="black_white">Black and White</option>
-            <option value="others">Others</option>
+            <option value="black&white">Black and White</option>
+            <option value="colored">Others</option>
           </select>
         </div>
         <div class="form_cat_row">
-          <label>Race: </label>
-          <input class="cat_race" type="text"/>
+          <label>Race*: </label>
+          <input class="cat_race" type="text" placeholder= "ex: Siamese, Blue Russian, Persian, Bengal etc"/>
+          <span class="explanation">*Leave empty if you don't know the race</span>
         </div>
         <div class="form_cat_row">
           <label>Add a photo:</label>
-          <input type="image" class="cat_image"/>
+          <input type="file" class="cat_image"/>
         </div>
         <div class="form_cat_row">
           <label>Any other comments:</label>

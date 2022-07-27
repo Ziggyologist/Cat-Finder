@@ -9,15 +9,16 @@ class Cat {
     this.race = race; //form select
     this.photo = photo; //form select
     this.comment = comment; //form select
+    this._setDescription();
   }
 
   _setDescription() {
     // prettier-ignore
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-    this.description = `${this.color} cat spotted on ${
-      months[this.date.getMonth()]
-    } ${this.date.getDay()}`;
+    this.description = `${this.color[0].toUpperCase() + this.color.slice(1)} ${
+      this.race ? this.race : "cat"
+    } spotted on ${months[this.date.getMonth()]} ${this.date.getDay()}`;
   }
 }
 
@@ -41,6 +42,8 @@ const newCatPhoto = document.querySelector(".cat_image");
 const newCatComment = document.querySelector(".cat_details");
 
 const filterCatsContainer = document.querySelector(".filters");
+
+const recentCats = document.querySelector(".recent_cats_area");
 
 class App {
   #map;
@@ -111,6 +114,7 @@ class App {
   }
   // //////////////HIDE FORM
   _hideForm() {
+    newCatRace.value = newCatPhoto.value = newCatComment.value = "";
     newCatFormContainer.classList.add("hidden");
     filterCatsContainer.style.opacity = "1";
   }
@@ -130,41 +134,42 @@ class App {
     this.cats.push(cat);
     this._hideForm();
     this._renderCatsMarker(cat);
+    this._renderCats(cat);
   }
   _renderCatsMarker(cat) {
     const iconWhite = L.icon({
       iconUrl: `Cat_logos/white_cat.svg`,
-      iconSize: [25, 66],
+      iconSize: [35, 70],
       iconAnchor: [22, 94],
       popupAnchor: [0, -80],
     });
     const iconOrange = L.icon({
       iconUrl: `Cat_logos/orange_cat.svg`,
-      iconSize: [25, 66],
+      iconSize: [35, 70],
       iconAnchor: [22, 94],
       popupAnchor: [0, -80],
     });
     const iconGrey = L.icon({
       iconUrl: `Cat_logos/gray_cat.svg`,
-      iconSize: [25, 66],
+      iconSize: [35, 70],
       iconAnchor: [22, 94],
       popupAnchor: [0, -80],
     });
     const iconBlack = L.icon({
       iconUrl: `Cat_logos/black_cat.svg`,
-      iconSize: [25, 66],
+      iconSize: [35, 70],
       iconAnchor: [22, 94],
       popupAnchor: [0, -80],
     });
     const iconBlackWhite = L.icon({
       iconUrl: `Cat_logos/black_white_cat.svg`,
-      iconSize: [25, 66],
+      iconSize: [35, 70],
       iconAnchor: [22, 94],
       popupAnchor: [0, -80],
     });
     const iconOthers = L.icon({
       iconUrl: `Cat_logos/white_orange_cat.svg`,
-      iconSize: [25, 66],
+      iconSize: [35, 70],
       iconAnchor: [22, 94],
       popupAnchor: [0, -80],
     });
@@ -178,9 +183,9 @@ class App {
           ? iconOrange
           : cat.color === "grey"
           ? iconGrey
-          : cat.color === "black_white"
+          : cat.color === "black&white"
           ? iconBlackWhite
-          : cat.color === "others"
+          : cat.color === "colored"
           ? iconOthers
           : "",
     })
@@ -194,10 +199,14 @@ class App {
           className: "",
         })
       )
-      .setPopupContent("I'm here")
-      .openPopup();
+      .setPopupContent(`${cat.description}`);
+    // .openPopup();
   }
-  _renderCats(cat) {}
+  _renderCats(cat) {
+    const html = ` 
+    <p class="recent_cats__row">${cat.description}</p>`;
+    recentCats.insertAdjacentHTML("afterend", html);
+  }
   _moveToPopUp(e) {}
   _setLocalStorage() {}
   _getLocalStorage() {}
