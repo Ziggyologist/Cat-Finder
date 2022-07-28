@@ -1,5 +1,6 @@
 "use strict";
 
+let sorted = false;
 class Cat {
   date = new Date();
   id = (Date.now() + "").slice(-10);
@@ -18,7 +19,9 @@ class Cat {
 
     this.description = `${this.color[0].toUpperCase() + this.color.slice(1)} ${
       this.race ? this.race : "cat"
-    } spotted on ${months[this.date.getMonth()]} ${this.date.getDay()}`;
+    } spotted on ${
+      months[this.date.getMonth()]
+    } ${this.date.getDay()} at ${this.date.getHours()}:${this.date.getMinutes()}`;
   }
 }
 
@@ -42,8 +45,11 @@ const newCatPhoto = document.querySelector(".cat_image");
 const newCatComment = document.querySelector(".cat_details");
 
 const filterCatsContainer = document.querySelector(".filters");
+const filterBtn = document.querySelector(".btn_save_filter");
 
-const recentCats = document.querySelector(".recent_cats_area");
+const recentCats = document.querySelector(".recent_cats");
+const sideAct = document.querySelector(".side_actions");
+const catRow = document.querySelector(".recent_cats__row");
 
 class App {
   #map;
@@ -72,6 +78,8 @@ class App {
 
     newCatFormBtnClose.addEventListener("click", this._hideForm.bind(this));
     newCatFormBtnSubmit.addEventListener("click", this._newCat.bind(this));
+    filterBtn.addEventListener("click", this._sortCats.bind(this));
+    sideAct.addEventListener("click", this._moveToPopUp.bind(this));
   }
   // ///////////////////GET POSITION
   _getPosition() {
@@ -109,7 +117,7 @@ class App {
   _showForm(mapE) {
     this.#mapEvent = mapE;
     newCatFormContainer.classList.remove("hidden");
-    filterCatsContainer.style.opacity = "0";
+    filterCatsContainer.classList.add("hidden");
     newCatColor.focus();
   }
   // //////////////HIDE FORM
@@ -204,12 +212,28 @@ class App {
   }
   _renderCats(cat) {
     const html = ` 
-    <p class="recent_cats__row">${cat.description}</p>`;
+    <li class="recent_cat recent_cats__row" data-id="${cat.id}">${cat.description}</li>`;
     recentCats.insertAdjacentHTML("afterend", html);
   }
-  _moveToPopUp(e) {}
+  _moveToPopUp(e) {
+    console.log(e);
+
+    const catListEl = e.target.closest(".recent_cat");
+    console.log(catListEl);
+    if (!catListEl) return;
+    const cat = this.cats.find(cat => cat.id === catListEl.dataset.id);
+    this.#map.setView(cat.coords, this.#mapZoomLevel + 1, {
+      animate: true,
+      pan: {duration: 1},
+    });
+  }
   _setLocalStorage() {}
   _getLocalStorage() {}
+  _sortCats(e) {
+    e.preventDefault();
+    sorted = true;
+    console.log(sorted);
+  }
   _deleteCat() {}
 }
 const app = new App();

@@ -68,7 +68,8 @@
         <div class="side_actions">
           <div class="recent_cats">
             <h3>See recently added cats...</h3>
-            <div class="recent_cats_area"></div>
+            <hr>
+            <ul class="recent_cats_area"></ul>
             
           </div>
         </div>
@@ -108,12 +109,19 @@
                 <div class="filters_col">
                     <label class="filters_form_label">Race: </label>
                     <select class="filters_input_race">
-                        <option value="all_races" selected>All races</option>
+                      <option value="all_races" selected>All races</option>
+                      <option value="cat">house cat</option>
+                      <option value="Persian">Persian</option>
+                      <option value="Siamese">Siamese</option>
+                      <option value="Blue Russian">Blue Russian</option>
+                      <option value="Calico">Calico</option>
+                      <option value="Sphinx">Sphinx</option>
+                      <option value="British Shorthair">British Shorthair</option>
                     </select>
                 </div>
 
                 <div class="filters_col">
-                    <button class="btn_save_filter">Save filter</button>
+                    <button class="btn_save_filter">Sort</button>
                 </div>
 
             </form>
@@ -142,9 +150,17 @@
           </select>
         </div>
         <div class="form_cat_row">
-          <label>Race*: </label>
-          <input class="cat_race" type="text" placeholder= "ex: Siamese, Blue Russian, Persian, Bengal etc"/>
-          <span class="explanation">*Leave empty if you don't know the race</span>
+          <label>Race: </label>
+          <select class="cat_race">
+            <option value="cat">house cat</option>
+            <option value="Persian">Persian</option>
+            <option value="Siamese">Siamese</option>
+            <option value="Blue Russian">Blue Russian</option>
+            <option value="Calico">Calico</option>
+            <option value="Sphinx">Sphinx</option>
+            <option value="British Shorthair">British Shorthair</option>
+            <option value="cat">not sure</option>
+          </select>
         </div>
         <div class="form_cat_row">
           <label>Add a photo:</label>
