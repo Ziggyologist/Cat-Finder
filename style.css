@@ -148,7 +148,7 @@ main {
 
 .map {
   /* border: 2px solid purple; */
-  height: auto;
+  height: 100vh;
   width: 100vw;
   height: 100%;
   margin-top: -8rem;

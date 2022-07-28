@@ -46,6 +46,7 @@ const newCatComment = document.querySelector(".cat_details");
 
 const filterCatsContainer = document.querySelector(".filters");
 const filterBtn = document.querySelector(".btn_save_filter");
+const mapArea = document.querySelector(".map");
 
 const recentCats = document.querySelector(".recent_cats");
 const sideAct = document.querySelector(".side_actions");
@@ -118,13 +119,15 @@ class App {
     this.#mapEvent = mapE;
     newCatFormContainer.classList.remove("hidden");
     filterCatsContainer.classList.add("hidden");
+    mapArea.style.marginTop = "0";
     newCatColor.focus();
   }
   // //////////////HIDE FORM
   _hideForm() {
     newCatRace.value = newCatPhoto.value = newCatComment.value = "";
     newCatFormContainer.classList.add("hidden");
-    filterCatsContainer.style.opacity = "1";
+    filterCatsContainer.classList.remove("hidden");
+    mapArea.style.marginTop = "-8rem";
   }
   // /////////////ADD CAT
   _newCat(e) {
