@@ -28,8 +28,9 @@ class Cat {
 }
 
 //test
-const test = new Cat(12, "grey", "mixed", "photo", 12);
-console.log(test);
+// const test = new Cat([12], "grey", "mixed", "photo", 12);
+
+// console.log(test);
 // //////////////////////////////////////////////
 // APPLICATION ARCHITECTURE
 
@@ -69,6 +70,7 @@ class App {
     // 1. Get user position
     this._getPosition();
     // 2. Get data from local storage
+    this._getLocalStorage();
     // 3. Attach event handlers
     btnShrink.addEventListener("click", function () {
       btnExpand.classList.remove("hidden");
@@ -154,6 +156,9 @@ class App {
     this._hideForm();
     this._renderCatsMarker(cat);
     this._renderCats(cat);
+
+    // Set local storage
+    this._setLocalStorage();
   }
   _extendPopUp() {}
   _renderCatsMarker(cat) {
@@ -321,8 +326,16 @@ class App {
       pan: {duration: 1},
     });
   }
-  _setLocalStorage() {}
-  _getLocalStorage() {}
+  _setLocalStorage() {
+    localStorage.setItem("cats", JSON.stringify(this.cats));
+  }
+  _getLocalStorage() {
+    const data = JSON.parse(localStorage.getItem("cats"));
+    if (!data) return;
+    this.cats = data;
+    console.log(data);
+    this.cats.forEach(cat => this._renderCats(cat));
+  }
 
   _deleteCat() {}
 }
