@@ -21,7 +21,9 @@ class Cat {
       this.race ? this.race : "cat"
     } spotted on ${
       months[this.date.getMonth()]
-    } ${this.date.getDay()} at ${this.date.getHours()}:${this.date.getMinutes()}`;
+    } ${this.date.getDay()} at ${this.date.getHours()}:${String(
+      this.date.getMinutes()
+    ).padStart(2, 0)}`;
   }
 }
 
@@ -46,10 +48,15 @@ const newCatComment = document.querySelector(".cat_details");
 
 const filterCatsContainer = document.querySelector(".filters");
 const filterBtn = document.querySelector(".btn_save_filter");
+const filterDate = document.querySelector(".filters_input_date");
+const filterColor = document.querySelector(".filters_input_color");
+const filterRace = document.querySelector(".filters_input_race");
+const filterResults = document.querySelector(".filter_results");
 const mapArea = document.querySelector(".map");
 
 const recentCats = document.querySelector(".recent_cats");
 const sideAct = document.querySelector(".side_actions");
+const asideAct = document.querySelector(".aside_form");
 const catRow = document.querySelector(".recent_cats__row");
 
 class App {
@@ -79,8 +86,9 @@ class App {
 
     newCatFormBtnClose.addEventListener("click", this._hideForm.bind(this));
     newCatFormBtnSubmit.addEventListener("click", this._newCat.bind(this));
-    filterBtn.addEventListener("click", this._sortCats.bind(this));
     sideAct.addEventListener("click", this._moveToPopUp.bind(this));
+    asideAct.addEventListener("click", this._moveFilterToPopUp.bind(this));
+    filterBtn.addEventListener("click", this._sortCats.bind(this));
   }
   // ///////////////////GET POSITION
   _getPosition() {
@@ -147,6 +155,7 @@ class App {
     this._renderCatsMarker(cat);
     this._renderCats(cat);
   }
+  _extendPopUp() {}
   _renderCatsMarker(cat) {
     const iconWhite = L.icon({
       iconUrl: `Cat_logos/white_cat.svg`,
@@ -184,6 +193,7 @@ class App {
       iconAnchor: [22, 94],
       popupAnchor: [0, -80],
     });
+
     L.marker(cat.coords, {
       icon:
         cat.color === "white"
@@ -210,19 +220,89 @@ class App {
           className: "",
         })
       )
-      .setPopupContent(`${cat.description}`);
+      .setPopupContent(
+        `${cat.description} <br> <a class="extend_popup">Click to see details</a>`
+      );
+
     // .openPopup();
   }
+  _sortCats(e, cats) {
+    e.preventDefault();
+    btnExpand.classList.add("hidden");
+    btnShrink.classList.remove("hidden");
+    asideContent.classList.remove("hidden");
+    asideContent.classList.remove("hidden");
+    this.cats.forEach(cat => console.log(cat.color));
+    const whiteCats = this.cats.filter(cat => cat.color === "white");
+    const blackCats = this.cats.filter(cat => cat.color === "black");
+    const orangeCats = this.cats.filter(cat => cat.color === "orange");
+    const greyCats = this.cats.filter(cat => cat.color === "grey");
+    const blackWhiteCats = this.cats.filter(cat => cat.color === "black&white");
+    const otherCats = this.cats.filter(cat => cat.color === "colored");
+    const allCats = this.cats;
+    let html;
+
+    if (filterColor.value === "white") {
+      sorted = true;
+      html = whiteCats.map(
+        cat =>
+          `<p class="filtered_cat" data-id="${cat.id}">${cat.description}</p>`
+      );
+      console.log(whiteCats);
+    } else if (filterColor.value === "black") {
+      sorted = true;
+      html = blackCats.map(
+        cat =>
+          `<p class="filtered_cat" data-id="${cat.id}">${cat.description}</p>`
+      );
+      console.log(blackCats);
+    } else if (filterColor.value === "orange") {
+      sorted = true;
+      html = orangeCats.map(
+        cat =>
+          `<p class="filtered_cat" data-id="${cat.id}">${cat.description}</p>`
+      );
+      console.log(orangeCats);
+    } else if (filterColor.value === "grey") {
+      sorted = true;
+      html = greyCats.map(
+        cat =>
+          `<p class="filtered_cat" data-id="${cat.id}">${cat.description}</p>`
+      );
+      console.log(greyCats);
+    } else if (filterColor.value === "black&white") {
+      sorted = true;
+      html = blackWhiteCats.map(
+        cat =>
+          `<p class="filtered_cat" data-id="${cat.id}">${cat.description}</p>`
+      );
+      console.log(blackWhiteCats);
+    } else if (filterColor.value === "colored") {
+      sorted = true;
+      html = otherCats.map(
+        cat =>
+          `<p class="filtered_cat" data-id="${cat.id}">${cat.description}</p>`
+      );
+      console.log(otherCats);
+    } else {
+      html = allCats.map(
+        cat =>
+          `<p class="filtered_cat" data-id="${cat.id}">${cat.description}</p>`
+      );
+    }
+    html = String(html).replaceAll(",", "");
+    filterResults.innerHTML = html;
+  }
+
   _renderCats(cat) {
     const html = ` 
     <li class="recent_cat recent_cats__row" data-id="${cat.id}">${cat.description}</li>`;
     recentCats.insertAdjacentHTML("afterend", html);
   }
   _moveToPopUp(e) {
-    console.log(e);
-
+    // console.log(e);
     const catListEl = e.target.closest(".recent_cat");
-    console.log(catListEl);
+    // console.log(catListEl);
     if (!catListEl) return;
     const cat = this.cats.find(cat => cat.id === catListEl.dataset.id);
     this.#map.setView(cat.coords, this.#mapZoomLevel + 1, {
@@ -230,13 +310,20 @@ class App {
       pan: {duration: 1},
     });
   }
+
+  _moveFilterToPopUp(e) {
+    const filterCat = e.target.closest(".filtered_cat");
+    // console.log(e.target);
+    if (!filterCat) return;
+    const cat2 = this.cats.find(cat => cat.id === filterCat.dataset.id);
+    this.#map.setView(cat2.coords, this.#mapZoomLevel + 1, {
+      animate: true,
+      pan: {duration: 1},
+    });
+  }
   _setLocalStorage() {}
   _getLocalStorage() {}
-  _sortCats(e) {
-    e.preventDefault();
-    sorted = true;
-    console.log(sorted);
-  }
+
   _deleteCat() {}
 }
 const app = new App();
