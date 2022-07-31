@@ -302,3 +302,7 @@ h3 {
 .hidden {
   display: none;
 }
+
+.delete_btn:hover {
+  cursor: pointer;
+}

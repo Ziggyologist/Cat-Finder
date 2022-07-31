@@ -21,7 +21,7 @@ class Cat {
       this.race ? this.race : "cat"
     } spotted on ${
       months[this.date.getMonth()]
-    } ${this.date.getDay()} at ${this.date.getHours()}:${String(
+    } ${this.date.getDate()} at ${this.date.getHours()}:${String(
       this.date.getMinutes()
     ).padStart(2, 0)}`;
   }
@@ -91,6 +91,9 @@ class App {
     sideAct.addEventListener("click", this._moveToPopUp.bind(this));
     asideAct.addEventListener("click", this._moveFilterToPopUp.bind(this));
     filterBtn.addEventListener("click", this._sortCats.bind(this));
+    // deleteBtn.forEach(btn =>
+    //   btn.addEventListener("click", this._deleteCat.bind(this))
+    // );
   }
   // ///////////////////GET POSITION
   _getPosition() {
@@ -160,6 +163,7 @@ class App {
     // Set local storage
     this._setLocalStorage();
   }
+
   _extendPopUp() {}
   _renderCatsMarker(cat) {
     const iconWhite = L.icon({
@@ -226,8 +230,20 @@ class App {
         })
       )
       .setPopupContent(
-        `${cat.description} <br> <a class="extend_popup">Click to see details</a>`
-      );
+        `${cat.description} <br> <a class="extend_popup">Click to see details</a> <br> <a class="delete_btn">Delete</a>`
+      )
+      .openPopup();
+
+    const deleteBtn = document.querySelectorAll(".delete_btn");
+
+    // // L.DomEvent.on(deleteBtn, "click", () => {
+    // //   alert("toto");
+    // // });
+    // console.log(deleteBtn);
+
+    // deleteBtn.forEach(function (btn, i) {
+    //   btn.addEventListener("click", this._deleteCat.bind(this));
+    // });
 
     // .openPopup();
   }
@@ -336,10 +352,14 @@ class App {
     console.log(data);
     this.cats.forEach(cat => this._renderCats(cat));
   }
-
-  _deleteCat() {}
 }
 const app = new App();
 setTimeout(function () {
   console.log(app.cats);
+  const date = new Date();
+  console.log(
+    `${date.getDate()} at ${date.getHours()}:${String(
+      date.getMinutes()
+    ).padStart(2, 0)}`
+  );
 }, 15000);
