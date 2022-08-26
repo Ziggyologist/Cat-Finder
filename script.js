@@ -1,6 +1,7 @@
 "use strict";
 
 let sorted = false;
+let deleteBtn;
 class Cat {
   date = new Date();
   id = (Date.now() + "").slice(-10);
@@ -60,6 +61,8 @@ const sideAct = document.querySelector(".side_actions");
 const asideAct = document.querySelector(".aside_form");
 const catRow = document.querySelector(".recent_cats__row");
 
+// let delBtn;
+
 class App {
   #map;
   #mapZoomLevel = 13;
@@ -91,7 +94,7 @@ class App {
     sideAct.addEventListener("click", this._moveToPopUp.bind(this));
     asideAct.addEventListener("click", this._moveFilterToPopUp.bind(this));
     filterBtn.addEventListener("click", this._sortCats.bind(this));
-    // deleteBtn.forEach(btn =>
+    // delBtn.forEach(btn =>
     //   btn.addEventListener("click", this._deleteCat.bind(this))
     // );
   }
@@ -233,16 +236,17 @@ class App {
         `${cat.description} <br> <a class="extend_popup">Click to see details</a> <br> <a class="delete_btn">Delete</a>`
       )
       .openPopup();
+    // const deleteBtn = document.querySelector(".delete_btn");
 
-    const deleteBtn = document.querySelectorAll(".delete_btn");
-
-    // // L.DomEvent.on(deleteBtn, "click", () => {
-    // //   alert("toto");
-    // // });
+    // L.DomEvent.on(deleteBtn, "click", () => {
+    //   alert("toto");
+    // });
     // console.log(deleteBtn);
 
     // deleteBtn.forEach(function (btn, i) {
-    //   btn.addEventListener("click", this._deleteCat.bind(this));
+    //   btn.addEventListener("click", function () {
+    //     console.log(cat);
+    //   });
     // });
 
     // .openPopup();
@@ -317,8 +321,9 @@ class App {
 
   _renderCats(cat) {
     const html = ` 
-    <li class="recent_cat recent_cats__row" data-id="${cat.id}">${cat.description}</li>`;
+    <li class="recent_cat recent_cats__row" data-id="${cat.id}">${cat.description} `;
     recentCats.insertAdjacentHTML("afterend", html);
+    // delBtn = document.querySelectorAll(".del_btn");
   }
   _moveToPopUp(e) {
     // console.log(e);
@@ -330,6 +335,8 @@ class App {
       animate: true,
       pan: {duration: 1},
     });
+    // const delBtn = `<button class="del_btn">delete</button>`;
+    // catListEl.insertAdjacentHTML("beforeend", delBtn);
   }
 
   _moveFilterToPopUp(e) {
@@ -352,14 +359,32 @@ class App {
     console.log(data);
     this.cats.forEach(cat => this._renderCats(cat));
   }
+
+  // _deleteCat(e) {
+  //   console.log(this.cats);
+  //   const catListEl = e.target.closest(".recent_cat");
+  //   const cat = this.cats.find(cat => cat.id === catListEl.dataset.id);
+
+  //   const catIndex = this.cats.findIndex(
+  //     cat => cat.id === catListEl.dataset.id
+  //   );
+  //   localStorage.removeItem(`${this.cats[catIndex]}`);
+  //   // console.log(catIndex);
+  //   // this.cats.splice(catIndex, 1);
+  //   // console.log(this.cats);
+  //   // this.cats.forEach(cat => this._renderCats(cat));
+  //   // this.cats.forEach(cat => this._renderCatsMarker(cat));
+  // }
 }
 const app = new App();
-setTimeout(function () {
-  console.log(app.cats);
-  const date = new Date();
-  console.log(
-    `${date.getDate()} at ${date.getHours()}:${String(
-      date.getMinutes()
-    ).padStart(2, 0)}`
-  );
-}, 15000);
+// setTimeout(function () {
+//   console.log(app.cats);
+//   const date = new Date();
+//   console.log(
+//     `${date.getDate()} at ${date.getHours()}:${String(
+//       date.getMinutes()
+//     ).padStart(2, 0)}`
+//   );
+// }, 15000);
+
+// console.log(delBtn);
